@@ -58,11 +58,9 @@ class test_linked_list (unittest.TestCase):
         self.assertEquals(ll.pop_back(), 1)
         self.assertTrue(ll.empty())
 
-
-
 class linked_list:
-  front=rear=None
-
+  def __init__(self):
+       self.front = self.rear = None 
 
   class node:
         def __init__(self,data,next):
@@ -70,7 +68,7 @@ class linked_list:
             self.next = next
 
 
-  def empty(self):
+  def empty(self): 
       if self.rear == None:
           return True
 
@@ -132,7 +130,6 @@ class factorial:
       stack.push_back(a)
       a -= 1
     result = 1
-    stackRear = None
     while not stack.empty():
        popped = stack.pop_back()
        result *= popped
@@ -151,10 +148,8 @@ class test_factorial (unittest.TestCase):
         self.assertEquals(factorial().fact(10), 10*9*8*7*6*5*4*3*2*1)
 
 if __name__ == '__main__': 
-   unittest.main()
+#   unittest.main()
 
-#if main:
-
-#   print factorial().fact(1)
-#   print factorial().fact(5)
-#   print factorial().fact(100)
+   print factorial().fact(1)
+   print factorial().fact(5)
+   print factorial().fact(100)
