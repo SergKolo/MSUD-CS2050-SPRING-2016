@@ -1,29 +1,42 @@
 #!/usr/bin/env python
+
+#############################
+# Date: February 17th, 2016
+# Author: Sergiy Kolodyazhnyy
+# Instructor: Steven Beaty
+# Assignment: #2, Recursion and Strings
+# Description: Recursive removal of spaces
+# and testing a string whether 
+# it is a palindrome
+# Tools used: vim, python 2.7
 import unittest
 
-def testnone(string):
-    if type(string) == type(None):
+def testtype(string):
+    if type(string) == type(str()):
        return True
 
 def remove_spaces(string):
-    if  testnone(string):
-        return None
-    if string[:1] == "":
-       return ""
-    elif string[:1] != " ":
-       return string[:1] + remove_spaces(string[1:])
-    else:
-       return remove_spaces(string[1:])
+    if  testtype(string):
+       if string[:1] == "":
+          return ""
+       elif string[:1] != " ":
+          return string[:1] + remove_spaces(string[1:])
+       else:
+          return remove_spaces(string[1:])
+    # extra credit
+    elif string and not testtype(string): 
+         raise TypeError("Argument type incorrect")
+        
 
 
 def palindrome(string):
-     if testnone(string):
-        return False
-     if string.__len__() <= 1: return True
-     elif string[:1] == string[-1:] and\
-           palindrome(string[2:-2]):
-           return True
-     else: return False
+     if testtype(string):
+        string =  string.lower()
+        if string.__len__() <= 1: return True
+        elif string[:1] == string[-1:] and\
+             palindrome(string[2:-2]):
+             return True
+        else: return False
 
 class test_remove_spaces (unittest.TestCase):
     def test_remove_space_none(self):
@@ -44,9 +57,15 @@ class test_remove_spaces (unittest.TestCase):
         self.assertEquals (remove_spaces (" a b c "), "abc")
 
     # this is extra credit
-    # def test_raise_typerror(self):
-        # self.assertRaises (TypeError, lambda: remove_spaces (1))
+    def test_raise_typerror(self):
+         self.assertRaises (TypeError, lambda: remove_spaces (1))
 
+
+   # additional tests, added by the student
+    def test_remove_multiple_spaces(self):
+        self.assertEquals(remove_spaces(" a   b   c   "),"abc")
+    def test_ascii_hex(self):
+        self.assertEquals(remove_spaces( "%c%c%c" % (0x41,0x20,0x41) ),"AA")
 class test_palindrome (unittest.TestCase):
     def test_none(self):
         self.assertFalse (palindrome (None))
@@ -66,6 +85,11 @@ class test_palindrome (unittest.TestCase):
         self.assertTrue (palindrome (remove_spaces ("Was It a Rat I saW")))
     def test_not(self):
         self.assertFalse (palindrome (remove_spaces ("i'm not a palindrome")))
+
+# additional tests, added by the student
+    def test_spliced_words (self):
+        self.assertTrue(palindrome(remove_spaces("stressed desserts")))
+
 
 if __name__ == '__main__':
     unittest.main()
