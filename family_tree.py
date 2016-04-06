@@ -40,6 +40,9 @@ class family_tree:
 
     """ Return a preorder list """
     def preorder(self):
+        '''
+        tree traversed in root-left-right order
+        '''
         nodes = ''
         nodes = '(' + str(self.__value) + ',' + self.__name + ')'
         if self.__left:
@@ -52,6 +55,9 @@ class family_tree:
 
     """ Return a inorder list """
     def inorder(self):
+        '''
+        tree traversed in left-root-right  order
+        '''
         nodes = ''
         if self.__left:
            nodes += self.__left.inorder() 
@@ -65,6 +71,9 @@ class family_tree:
 
     """ Return a postorder list """
     def postorder(self):
+        '''
+        tree traversed in left-right-root order
+        ''' 
         nodes = ''
         if self.__left:
            nodes += self.__left.postorder() 
@@ -138,6 +147,9 @@ class family_tree:
     """ Create a list of lists, where each of the inner lists
         is a generation """
     def generations(self):
+        '''
+        Breadth-first (level-order) traversal
+        '''
         this_level = []
         next_level = []
         result = []
@@ -145,24 +157,21 @@ class family_tree:
         this_level = [self]
 
         while this_level :
-          #print('This level',this_level)
           popped = this_level.pop(0)
-          #print(type(popped))
           names.append(popped.__name)
           if popped.__left: 
-             # print(popped.__left.__name)
              next_level.append(popped.__left)
           if popped.__right:
-             # print(popped.__right.__name)
              next_level.append(popped.__right)
           if not this_level :
-             result = result + [[ item for item in names  ]]
-             #print('NEXT:',next_level)
+             result = result + [[ item for item in names  ]] # deep copy of the list, individual items still retain same ids
              this_level = [ item for item in next_level  ]
              next_level = []
              names = []
 
         return result
+
+""" Write your own tests for inorder etc. here """
 
 class test_family_tree (unittest.TestCase):
     """
@@ -199,6 +208,12 @@ class test_family_tree (unittest.TestCase):
     def test_grand_parent(self):
         self.assertEquals(self.tree.find_grand_parent(35), "Grandpa")
 
+    def test_nonexisting_parent(self):
+        self.assertRaises(LookupError,lambda : self.tree.find_parent(20))
+
+    def test_nonexisting_grandparent(self):
+        self.assertRaises(LookupError,lambda : self.tree.find_grand_parent(20))
+
     def test_pre_order(self):
         self.assertEquals( self.tree.preorder(),"(20,Grandpa),(10,Herb),(30,Homer),(25,Bart),(35,Lisa)"   )
 
@@ -208,15 +223,11 @@ class test_family_tree (unittest.TestCase):
     def test_post_order(self):
         self.assertEquals( self.tree.postorder(), "(10,Herb),(25,Bart),(35,Lisa),(30,Homer),(20,Grandpa)" )
 
-
     def test_generations(self):
         self.assertEquals(self.tree.generations(), \
             [['Grandpa'], ['Herb', 'Homer'], ['Bart', 'Lisa']])
 
 
-
-
-    """ Write your own tests for inorder etc. here """
 
 if '__main__' == __name__:
     unittest.main()
