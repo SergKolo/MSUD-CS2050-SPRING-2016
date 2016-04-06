@@ -138,9 +138,31 @@ class family_tree:
     """ Create a list of lists, where each of the inner lists
         is a generation """
     def generations(self):
-        # not implemented
-         pass
+        this_level = []
+        next_level = []
+        result = []
+        names = []
+        this_level = [self]
 
+        while this_level :
+          #print('This level',this_level)
+          popped = this_level.pop(0)
+          #print(type(popped))
+          names.append(popped.__name)
+          if popped.__left: 
+             # print(popped.__left.__name)
+             next_level.append(popped.__left)
+          if popped.__right:
+             # print(popped.__right.__name)
+             next_level.append(popped.__right)
+          if not this_level :
+             result = result + [[ item for item in names  ]]
+             #print('NEXT:',next_level)
+             this_level = [ item for item in next_level  ]
+             next_level = []
+             names = []
+
+        return result
 
 class test_family_tree (unittest.TestCase):
     """
@@ -187,9 +209,9 @@ class test_family_tree (unittest.TestCase):
         self.assertEquals( self.tree.postorder(), "(10,Herb),(25,Bart),(35,Lisa),(30,Homer),(20,Grandpa)" )
 
 
-    #def test_generations(self):
-    #    self.assertEquals(self.tree.generations(), \
-    #        [['Grandpa'], ['Herb', 'Homer'], ['Bart', 'Lisa']])
+    def test_generations(self):
+        self.assertEquals(self.tree.generations(), \
+            [['Grandpa'], ['Herb', 'Homer'], ['Bart', 'Lisa']])
 
 
 
@@ -215,4 +237,5 @@ if '__main__' == __name__:
     print("Pre-order: ",ft.preorder())
     print("In-order: ",ft.inorder())
     print("Post-order: ",ft.postorder())
+    print(ft.generations())
     '''
