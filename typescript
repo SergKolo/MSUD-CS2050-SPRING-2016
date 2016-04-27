@@ -1,0 +1,20 @@
+Script started on Sun 07 Feb 2016 03:16:27 PM MST
+
+DIR:/MSUD-CS2050-SPRING-2016
+skolodya@ubuntu:$ ./p linkedlist.py
+1
+120
+93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000
+
+DIR:/MSUD-CS2050-SPRING-2016
+skolodya@ubuntu:$ python -m unittest linkedlist
+............
+----------------------------------------------------------------------
+Ran 12 tests in 0.002s
+
+OK
+
+DIR:/MSUD-CS2050-SPRING-2016
+skolodya@ubuntu:$ exit
+
+Script done on Sun 07 Feb 2016 03:16:53 PM MST
