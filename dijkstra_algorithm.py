@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+'''
+Author:       Sergiy Kolodyazhnyy
+Instructor:   Steven Beaty
+Date:         4/24/2016
+Description:  Implementation of Dijkstra's algorithm
+	      for finding the shortest path to any node in
+	      a graph
+Tools: vim , python2.7
+'''
 from __future__ import print_function
 from sys import stdin
 import unittest
@@ -101,68 +111,69 @@ class weighted_digraph:
         return(self.find(value1).is_adjacent(self.find(value2)))
 
     def dijkstra(self, start):
-#        ''' For all the nodes in the graph, set distance
-#            equal to infinity and previous equal to none '''
+           
+         ''' For all the nodes in the graph, set distance
+            equal to infinity and previous equal to none '''
          visited_nodes = []
          all_nodes = self.get_nodes()
          node_distance = {}
          for node in all_nodes:
              node_distance[node.value]= float('inf')
 
-#        ''' Set the source to the start, and start's distance
-#            to zero '''
+         ''' Set the source to the start, and start's distance
+            to zero '''
          
          source=start
          node_distance[start]=0
-#        ''' Create a todo set and add source to it '''
+         ''' Create a todo set and add source to it '''
          queue = []
          queue.append( source  )
-#        ''' While there is something to do '''
+         ''' While there is something to do '''
          while queue:
              
-#            ''' Find the node with the minimum distance '''
-#            ''' Remove it from the todo set '''
-             min_node = None
-             for node in all_nodes:   # linear search
+            ''' Find the node with the minimum distance '''
+            ''' Remove it from the todo set '''
+            min_node = None
+            for node in all_nodes:   # linear search
                if node.value not in visited_nodes:
                   if min_node == None: # set the first element as minimum
                      min_node = node
                   elif node_distance[node.value] < node_distance[min_node.value] :
                     min_node = node
-             if min_node == None:
+            if min_node == None:
                 break
              
-             visited_nodes.append(min_node.value)
-             queue.pop(queue.index(min_node.value))
+            visited_nodes.append(min_node.value)
+            queue.pop(queue.index(min_node.value))
 
-#            ''' For each of the edges in the minimum distance node '''
-             new_distance=0
-             for edge in min_node.edges : # must be the object min_node, not string
-#                ''' Calculate a possible new distance to the adjacent
-#                    node '''
+            ''' For each of the edges in the minimum distance node '''
+            new_distance=0
+            for edge in min_node.edges : # must be the object min_node, not string
+                 ''' Calculate a possible new distance to the adjacent
+                    node '''
                  new_distance = edge.weight +  node_distance[min_node.value]
-#                ''' If the new distance is less than the previous
-#                    distance '''
+                 ''' If the new distance is less than the previous
+                     distance '''
                  if new_distance < node_distance[edge.to_node.value]:
                      node_distance[edge.to_node.value]=new_distance
-#                    ''' Set the distance to the newly calculated
-#                        distance and set the previous reference to the
-#                        node we just choose '''
-#                    ''' Add the node to the todo set '''
+                     ''' Set the distance to the newly calculated
+                         distance and set the previous reference to the
+                         node we just choose '''
+                     ''' Add the node to the todo set '''
                      queue.append(edge.to_node.value)
-#
+
          result = []
+         ''' For each node, create a list where the first element
+             is the total distance and the second is the value '''
          if not track_prev:
-#            ''' For each node, create a list where the first element
-#                is the total distance and the second is the value '''
              for each_node in node_distance:
                  result.append([node_distance[each_node],each_node])                 
-#        else:
-#            ''' For each node, create a list where the first element
-#                is the total distance and the following values are the
-#                nodes traversed from end to start '''
-#            pass
-#
+         else:
+            '''For each node, create a list where the first element
+            is the total distance and the following values are the 
+            nodes traversed from end to start'''
+            pass
+
          return(result)
 
 class test_weighted_digraph(unittest.TestCase):
